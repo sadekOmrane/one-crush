@@ -17,6 +17,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   void onRegister(Register event, Emitter<RegisterState> emit) async {
+    emit(RegisterLoading());
     final dataState = await _registerUseCase(
         params: RegisterParams(
       name: event.name,

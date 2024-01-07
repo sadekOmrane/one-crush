@@ -17,6 +17,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void onLogin(Login event, Emitter<LoginState> emit) async {
+    emit(LoginLoading());
     final dataState = await _loginUseCase(
         params: LoginParams(
       email: event.email,

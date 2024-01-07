@@ -19,8 +19,8 @@ class GetUsersBloc extends Bloc<GetUsersEvent, GetUsersState> {
   }
 
   void onGetUsers(GetUsers event, Emitter<GetUsersState> emit) async {
+    emit(GetUsersLoading());
     final dataState = await _getUseCase(params: null);
-
     if (dataState is DataSuccess) {
       emit(GetUsersLoaded(dataState.data!));
     } else if (dataState is DataError) {

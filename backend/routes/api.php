@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\MatchingController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,9 +22,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('users')->group(function () {
-    Route::get('', [UserController::class, 'index']);
+    Route::middleware(Authenticate::class)->get('', [UserController::class, 'index']);
     Route::post('login', [UserController::class, 'login']);
     Route::post('register', [UserController::class, 'register']);
     Route::post('logout', [UserController::class, 'logout']);
     Route::post('refresh', [UserController::class, 'refresh']);
+});
+
+Route::prefix('matchings')->group(function () {
+    Route::middleware(Authenticate::class)->post('{id}', [MatchingController::class, 'match']);
 });

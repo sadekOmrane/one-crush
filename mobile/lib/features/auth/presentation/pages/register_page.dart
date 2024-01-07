@@ -225,7 +225,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: CircularProgressIndicator(),
               );
             } else if (state is RegisterError) {
-              return AppMessageErrorWidget(message: state.error!.message!);
+              return AppMessageErrorWidget(error: state.error);
             }
 
             return SizedBox();

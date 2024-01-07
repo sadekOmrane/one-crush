@@ -8,6 +8,7 @@ import 'package:mobile/features/auth/presentation/blocs/remote/register/register
 import 'package:mobile/features/auth/presentation/pages/login_page.dart';
 import 'package:mobile/features/auth/presentation/pages/register_page.dart';
 import 'package:mobile/features/home/presentation/blocs/remote/get_users/get_users_bloc.dart';
+import 'package:mobile/features/home/presentation/blocs/remote/matching/matching_bloc.dart';
 import 'package:mobile/features/home/presentation/pages/home_page.dart';
 
 class AppRouterGenerator {
@@ -27,8 +28,15 @@ class AppRouterGenerator {
                 ));
       case AppRoutes.APP_HOME_SCREEN:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                  create: (context) => sl<GetUsersBloc>(),
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) => sl<GetUsersBloc>(),
+                    ),
+                    BlocProvider(
+                      create: (context) => sl<MatchingBloc>(),
+                    ),
+                  ],
                   child: HomePages(),
                 ));
       default:

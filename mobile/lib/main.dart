@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile/core/injection/dependency_injection.dart';
 import 'package:mobile/core/router/app_router_generator.dart';
+import 'package:mobile/core/router/app_routes.dart';
 import 'package:mobile/core/styles/app_colors.dart';
 
 void main() async {
@@ -22,7 +23,7 @@ class MainApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           onGenerateRoute: AppRouterGenerator.generateRoute,
-          initialRoute: '/auth/login',
+          initialRoute: AppRoutes.APP_HOME_SCREEN,
           theme: ThemeData(
               fontFamily: 'Poppins',
               scaffoldBackgroundColor: Colors.white,

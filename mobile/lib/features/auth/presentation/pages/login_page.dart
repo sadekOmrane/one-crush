@@ -154,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: CircularProgressIndicator(),
               );
             } else if (state is LoginError) {
-              return AppMessageErrorWidget(message: state.error!.message!);
+              return AppMessageErrorWidget(error: state.error);
             }
 
             return SizedBox();
