@@ -16,29 +16,32 @@ class AppRouterGenerator {
     switch (settings.name) {
       case AppRoutes.APP_LOGIN_SCREEN:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                  create: (context) => sl<LoginBloc>(),
-                  child: LoginPage(),
-                ));
+          builder: (_) => BlocProvider(
+            create: (context) => sl<LoginBloc>(),
+            child: LoginPage(),
+          ),
+        );
       case AppRoutes.APP_REGISTER_SCREEN:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                  create: (context) => sl<RegisterBloc>(),
-                  child: RegisterPage(),
-                ));
+          builder: (_) => BlocProvider(
+            create: (context) => sl<RegisterBloc>(),
+            child: RegisterPage(),
+          ),
+        );
       case AppRoutes.APP_HOME_SCREEN:
         return MaterialPageRoute(
-            builder: (_) => MultiBlocProvider(
-                  providers: [
-                    BlocProvider(
-                      create: (context) => sl<GetUsersBloc>(),
-                    ),
-                    BlocProvider(
-                      create: (context) => sl<MatchingBloc>(),
-                    ),
-                  ],
-                  child: HomePages(),
-                ));
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => sl<GetUsersBloc>(),
+              ),
+              BlocProvider(
+                create: (context) => sl<MatchingBloc>(),
+              ),
+            ],
+            child: HomePages(),
+          ),
+        );
       default:
         return CupertinoPageRoute(
           builder: (_) => Scaffold(

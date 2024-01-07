@@ -23,7 +23,7 @@ class MainApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           onGenerateRoute: AppRouterGenerator.generateRoute,
-          initialRoute: AppRoutes.APP_HOME_SCREEN,
+          initialRoute: AppRoutes.APP_LOGIN_SCREEN,
           theme: ThemeData(
               fontFamily: 'Poppins',
               scaffoldBackgroundColor: Colors.white,

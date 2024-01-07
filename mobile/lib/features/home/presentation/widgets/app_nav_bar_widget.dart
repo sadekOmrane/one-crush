@@ -15,10 +15,13 @@ class AppNavBarWidget extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () {},
-          child: Icon(Bootstrap.person_circle),
+          child: Icon(
+            Bootstrap.person_circle,
+            size: 24.sp,
+          ),
           style: ElevatedButton.styleFrom(
             shape: CircleBorder(),
-            padding: EdgeInsets.all(8.sp),
+            padding: EdgeInsets.all(10.sp),
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent, // <-- Button color
             foregroundColor: AppColors.primaryBg, // <-- Splash color
@@ -27,10 +30,13 @@ class AppNavBarWidget extends StatelessWidget {
         AppLogoWidget(),
         ElevatedButton(
           onPressed: () {},
-          child: Icon(Bootstrap.chat_dots),
+          child: Icon(
+            Bootstrap.chat_dots,
+            size: 24.sp,
+          ),
           style: ElevatedButton.styleFrom(
             shape: CircleBorder(),
-            padding: EdgeInsets.all(8.sp),
+            padding: EdgeInsets.all(10.sp),
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent, // <-- Button color
             foregroundColor: AppColors.primaryBg, // <-- Splash color

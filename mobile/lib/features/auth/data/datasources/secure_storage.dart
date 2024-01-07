@@ -51,4 +51,10 @@ class SecureStorage {
   Future<void> removeToken() async {
     await delete(StringConstants.APP_TOKEN_KEY);
   }
+
+  Future<bool> isUserLoggedIn() async {
+    final user = await getUser();
+    final token = await getToken();
+    return user != null && token != null;
+  }
 }
