@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Matching;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MatchingController extends Controller
 {
@@ -14,13 +16,26 @@ class MatchingController extends Controller
             'type' => 'required|string',
         ]);
         if ($id == Auth::id()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'You cannot match yourself',
-            ], 400);
+            return $this->sendResponse(null, 'You cannot match yourself', 400);
         }
-        $isAlreadyMatched = Matching::factory()->isRequestExist(Auth::id(), $id, $request->type);
-        if ($isAlreadyMatched == 0) {
+        $matchingRequested = Matching::factory()->isRequestExist($id, Auth::id(), $request->type);
+        if ($matchingRequested) {
+            $matchingRequested->status = 'matched';
+            $matchingRequested->save();
+            Matching::create([
+                'from_user_id' => Auth::id(),
+                'to_user_id' => $id,
+                'type' => $request->type,
+                'status' => 'matched',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+        }else{
+            $sameMatching = Matching::factory()->isRequestExist(Auth::id(), $id, $request->type);
+            if($sameMatching){
+                return $this->sendResponse(null, 'you already match this user', 400);
+            }
             $matching = Matching::create([
                 'from_user_id' => Auth::id(),
                 'to_user_id' => $id,
@@ -29,20 +44,11 @@ class MatchingController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-        }else{
-            $matching = Matching::find($isAlreadyMatched);
-            if($matching->from_user_id == Auth::id() && $matching->to_user_id == $id){
-                $matching->type = $request->type;
-                $matching->save();
-            }else{
-                $matching->status = 'matched';
-                $matching->save();
-            }
         }
-        return response()->json([
-            'status' => 'success',
-            'matching' => $matching,
-        ]);
+        return $this->sendResponse($matching, 'Matching created successfully');
     }
+
+
+
 
 }

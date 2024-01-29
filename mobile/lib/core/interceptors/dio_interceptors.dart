@@ -6,7 +6,7 @@ class DioInterceptor extends Interceptor {
   Future onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     // Do something before request is sent
-    String? token = await SecureStorage().getToken();
+    String? token = await SecureStorage.getToken();
     if (token != null && token.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $token';
     }

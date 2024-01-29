@@ -10,7 +10,7 @@ UsersResponse _$UsersResponseFromJson(Map<String, dynamic> json) =>
     UsersResponse(
       message: json['message'] as String?,
       status: json['status'] as String?,
-      users: (json['users'] as List<dynamic>)
+      data: (json['data'] as List<dynamic>)
           .map((e) => UserModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -19,5 +19,5 @@ Map<String, dynamic> _$UsersResponseToJson(UsersResponse instance) =>
     <String, dynamic>{
       'message': instance.message,
       'status': instance.status,
-      'users': instance.users,
+      'data': instance.data,
     };

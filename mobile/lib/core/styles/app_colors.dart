@@ -11,4 +11,5 @@ class AppColors {
   static const Color danger = Color.fromRGBO(255, 89, 99, 1);
   static const Color success = Color.fromRGBO(36, 150, 137, 1);
   static const Color blue = Color.fromRGBO(80, 164, 255, 1);
+  static const Color shGrey = Color.fromARGB(125, 230, 230, 230);
 }

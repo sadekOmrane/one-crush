@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile/core/styles/app_global.dart';
-import 'package:mobile/features/auth/presentation/widgets/app_logo_widget.dart';
-import 'package:mobile/features/home/presentation/blocs/remote/get_users/get_users_bloc.dart';
 import 'package:mobile/features/home/presentation/widgets/app_nav_bar_widget.dart';
 import 'package:mobile/features/home/presentation/widgets/app_swiper_widget.dart';
 

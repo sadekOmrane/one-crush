@@ -5,91 +5,58 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
 
-    public function index()
+    public function getSuggestions()
     {
-        return response()->json([
-            'status' => 'success',
-            'users' => User::all(),
-        ]);
+        $users = User::all()->diff([Auth::user()]);
+        $matchingUsers = User::select('users.*')
+        ->join('matchings', function($join){
+            $join->on('users.id', '=', 'matchings.from_user_id')
+            ->orOn('users.id', '=', 'matchings.to_user_id');
+        })
+        ->where(function ($query) {
+            $query->where('matchings.from_user_id', Auth::user()->id)
+                  ->orWhere('matchings.to_user_id', Auth::user()->id);
+        })
+        ->get();
+        return $this->sendResponse($users->diff($matchingUsers), 'Suggestions retrieved successfully');
     }
 
-    public function login(Request $request)
+    public function getUser($id)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
-        $credentials = $request->only('email', 'password');
-
-        $token = Auth::attempt($credentials);
-        if (!$token) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized',
-            ], 401);
-        }
-
-        $user = Auth::user();
-        return response()->json([
-                'status' => 'success',
-                'user' => $user,
-                'authorisation' => [
-                    'token' => $token,
-                    'type' => 'bearer',
-                ]
-            ]);
+        $profile = User::find($id);
+        return $this->sendResponse($profile, 'User retrieved successfully');
     }
 
-    public function register(Request $request){
+    public function getProfile()
+    {
+        $profile = User::where('id', Auth::id())->with('profile')->first();
+        return $this->sendResponse($profile, 'Profile retrieved successfully');
+    }
+
+    public function updateProfile(Request $request)
+    {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'bio' => 'required|string|max:255',
+            'profile_pic_id' => 'required|integer',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $user = User::find(Auth::user()->id);
+        $user->name = $request->name;
+        $user->save();
 
-        $token = Auth::login($user);
-        return response()->json([
-            'status' => 'success',
-            'message' => 'User created successfully',
-            'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
+        $profile = DB::table('profiles')
+            ->where('user_id', Auth::user()->id)
+            ->update([
+                'bio' => $request->bio,
+                'profile_pic_id' => $request->profile_pic_id,
+            ]);
+        return $this->sendResponse($profile, 'Profile updated successfully');
     }
-
-    public function logout()
-    {
-        Auth::logout();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Successfully logged out',
-        ]);
-    }
-
-    public function refresh()
-    {
-        return response()->json([
-            'status' => 'success',
-            'user' => Auth::user(),
-            'authorisation' => [
-                'token' => Auth::refresh(),
-                'type' => 'bearer',
-            ]
-        ]);
-    }
-
-
 }

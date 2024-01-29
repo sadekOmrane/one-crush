@@ -22,12 +22,13 @@ class MatchingFactory extends Factory
         ];
     }
 
-    static public function isRequestExist($from_id, $to_id, $type): int
+    static public function isRequestExist($from_id, $to_id, $type) : ?Matching
     {
-        $matching = Matching::whereIn('from_user_id', [$from_id, $to_id])
-            ->whereIn('to_user_id', [$from_id, $to_id])
+        $matching = Matching::where('from_user_id', $from_id)
+            ->where('to_user_id', $to_id)
             ->where('type', $type)
             ->first();
-        return $matching ? $matching->id : 0;
+        return $matching;
     }
+
 }

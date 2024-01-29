@@ -7,12 +7,12 @@ part 'users_response.g.dart';
 class UsersResponse {
   final String? message;
   final String? status;
-  final List<UserModel> users;
+  final List<UserModel> data;
 
   UsersResponse({
     this.message,
     this.status,
-    required this.users,
+    required this.data,
   });
 
   factory UsersResponse.fromJson(Map<String, dynamic> json) =>

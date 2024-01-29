@@ -9,7 +9,7 @@ import 'package:mobile/core/styles/app_text_style.dart';
 import 'package:mobile/core/widgets/app_input_widget.dart';
 import 'package:mobile/core/widgets/app_message_error_widget.dart';
 import 'package:mobile/core/widgets/app_primary_button_widget.dart';
-import 'package:mobile/features/auth/presentation/blocs/remote/login/login_bloc.dart';
+import 'package:mobile/features/auth/presentation/blocs/remote/auth/auth_bloc.dart';
 import 'package:mobile/features/auth/presentation/widgets/app_logo_widget.dart';
 import 'package:mobile/features/auth/presentation/widgets/app_social_login_button_widget.dart';
 
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
         AppPrimaryButtonWidget(
           label: 'Login',
           onPress: () {
-            BlocProvider.of<LoginBloc>(context).add(
+            BlocProvider.of<AuthBloc>(context).add(
               Login(
                 email: emailController.text,
                 password: passwordController.text,
@@ -141,11 +141,11 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(
           height: 10.sp,
         ),
-        BlocConsumer<LoginBloc, LoginState>(
+        BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is LogedIn) {
               Navigator.pushNamedAndRemoveUntil(
-                  context, '/client/home', (route) => false);
+                  context, AppRoutes.APP_HOME_SCREEN, (route) => false);
             }
           },
           builder: (context, state) {

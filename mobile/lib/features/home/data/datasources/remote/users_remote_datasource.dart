@@ -9,6 +9,6 @@ part 'users_remote_datasource.g.dart';
 abstract class UsersRemoteDataSource {
   factory UsersRemoteDataSource(Dio dio) = _UsersRemoteDataSource;
 
-  @GET('/users')
+  @GET('/users/suggestions')
   Future<HttpResponse<UsersResponse>> get();
 }

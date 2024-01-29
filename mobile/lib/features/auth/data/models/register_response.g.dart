@@ -10,15 +10,23 @@ RegisterResponse _$RegisterResponseFromJson(Map<String, dynamic> json) =>
     RegisterResponse(
       message: json['message'] as String?,
       status: json['status'] as String?,
-      user: UserModel.fromJson(json['user'] as Map<String, dynamic>),
-      authorisation:
-          Authorisation.fromJson(json['authorisation'] as Map<String, dynamic>),
+      data: Data.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$RegisterResponseToJson(RegisterResponse instance) =>
     <String, dynamic>{
       'message': instance.message,
       'status': instance.status,
+      'data': instance.data,
+    };
+
+Data _$DataFromJson(Map<String, dynamic> json) => Data(
+      user: UserModel.fromJson(json['user'] as Map<String, dynamic>),
+      authorisation:
+          Authorisation.fromJson(json['authorisation'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'user': instance.user,
       'authorisation': instance.authorisation,
     };

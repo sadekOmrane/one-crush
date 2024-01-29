@@ -40,7 +40,7 @@ class _AuthRemoteDataSource implements AuthRemoteDataSource {
     )
             .compose(
               _dio.options,
-              '/users/login',
+              '/auth/login',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -76,7 +76,7 @@ class _AuthRemoteDataSource implements AuthRemoteDataSource {
     )
             .compose(
               _dio.options,
-              '/users/register',
+              '/auth/register',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -86,6 +86,34 @@ class _AuthRemoteDataSource implements AuthRemoteDataSource {
               baseUrl,
             ))));
     final value = LoginResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<LogoutResponse>> logout() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<LogoutResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/auth/logout',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = LogoutResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

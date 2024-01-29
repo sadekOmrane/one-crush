@@ -10,6 +10,6 @@ class GetUseCase implements UseCase<DataState<List<UserEntity>>, void> {
 
   @override
   Future<DataState<List<UserEntity>>> call({required void params}) async {
-    return await repository.get();
+    return await repository.suggestions();
   }
 }

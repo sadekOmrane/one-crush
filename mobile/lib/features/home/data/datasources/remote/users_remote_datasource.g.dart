@@ -34,7 +34,7 @@ class _UsersRemoteDataSource implements UsersRemoteDataSource {
     )
             .compose(
               _dio.options,
-              '/users',
+              '/users/suggestions',
               queryParameters: queryParameters,
               data: _data,
             )

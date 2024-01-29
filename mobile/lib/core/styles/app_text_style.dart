@@ -20,6 +20,11 @@ class AppTextStyle {
     fontSize: 16.sp,
     fontWeight: FontWeight.w500,
   );
+  static TextStyle primaryTextWhite22Bold = TextStyle(
+    color: Colors.white,
+    fontSize: 22.sp,
+    fontWeight: FontWeight.bold,
+  );
   static TextStyle primaryTextWhite16Bold = TextStyle(
     color: Colors.white,
     fontSize: 16.sp,

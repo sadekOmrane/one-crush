@@ -12,13 +12,13 @@ class UsersRepoImpl implements UsersRepo {
   UsersRepoImpl({required this.remoteDataSource});
 
   @override
-  Future<DataState<List<UserEntity>>> get() async {
+  Future<DataState<List<UserEntity>>> suggestions() async {
     // TODO: implement get
     try {
       final httpResponse = await remoteDataSource.get();
 
       if (httpResponse.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(httpResponse.data.users);
+        return DataSuccess(httpResponse.data.data);
       } else {
         return DataError(DioException(
           requestOptions: httpResponse.response.requestOptions,

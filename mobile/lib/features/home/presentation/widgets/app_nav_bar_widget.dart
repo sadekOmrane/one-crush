@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:mobile/core/router/app_routes.dart';
 import 'package:mobile/core/styles/app_colors.dart';
 import 'package:mobile/features/auth/presentation/widgets/app_logo_widget.dart';
 
@@ -14,7 +15,9 @@ class AppNavBarWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.APP_ACCOUNT_SCREEN);
+          },
           child: Icon(
             Bootstrap.person_circle,
             size: 24.sp,
@@ -29,7 +32,9 @@ class AppNavBarWidget extends StatelessWidget {
         ),
         AppLogoWidget(),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.APP_LOGIN_SCREEN);
+          },
           child: Icon(
             Bootstrap.chat_dots,
             size: 24.sp,

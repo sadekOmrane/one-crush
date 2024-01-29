@@ -9,7 +9,7 @@ import 'package:mobile/core/styles/app_text_style.dart';
 import 'package:mobile/core/widgets/app_input_widget.dart';
 import 'package:mobile/core/widgets/app_message_error_widget.dart';
 import 'package:mobile/core/widgets/app_primary_button_widget.dart';
-import 'package:mobile/features/auth/presentation/blocs/remote/register/register_bloc.dart';
+import 'package:mobile/features/auth/presentation/blocs/remote/auth/auth_bloc.dart';
 import 'package:mobile/features/auth/presentation/widgets/app_logo_widget.dart';
 import 'package:mobile/features/auth/presentation/widgets/app_social_login_button_widget.dart';
 
@@ -200,7 +200,7 @@ class _RegisterPageState extends State<RegisterPage> {
         AppPrimaryButtonWidget(
           label: 'Login',
           onPress: () {
-            BlocProvider.of<RegisterBloc>(context).add(
+            BlocProvider.of<AuthBloc>(context).add(
               Register(
                 name: nameController.text,
                 email: emailController.text,
@@ -212,11 +212,11 @@ class _RegisterPageState extends State<RegisterPage> {
         SizedBox(
           height: 10.sp,
         ),
-        BlocConsumer<RegisterBloc, RegisterState>(
+        BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is LogedIn) {
               Navigator.pushNamedAndRemoveUntil(
-                  context, '/client/home', (route) => false);
+                  context, AppRoutes.APP_HOME_SCREEN, (route) => false);
             }
           },
           builder: (context, state) {

@@ -6,7 +6,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:mobile/core/styles/app_colors.dart';
 import 'package:mobile/core/widgets/app_message_error_widget.dart';
 import 'package:mobile/features/auth/domain/entities/user_entity.dart';
-import 'package:mobile/features/home/presentation/blocs/remote/get_users/get_users_bloc.dart';
+import 'package:mobile/features/home/presentation/blocs/remote/get_suggestions/get_suggestions_bloc.dart';
 import 'package:mobile/features/home/presentation/blocs/remote/matching/matching_bloc.dart';
 import 'package:mobile/features/home/presentation/widgets/app_swiper_card_widget.dart';
 
@@ -26,7 +26,7 @@ class _AppSwiperWidgetState extends State<AppSwiperWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    BlocProvider.of<GetUsersBloc>(context).add(GetUsers());
+    BlocProvider.of<GetSuggestionsBloc>(context).add(GetSuggestions());
   }
 
   @override
@@ -41,20 +41,21 @@ class _AppSwiperWidgetState extends State<AppSwiperWidget> {
   }
 
   Widget _buildSwiper() {
-    return BlocBuilder<GetUsersBloc, GetUsersState>(
+    return BlocBuilder<GetSuggestionsBloc, GetSuggestionsState>(
       builder: (context, state) {
-        if (state is GetUsersLoaded) {
+        if (state is GetSuggestionsLoaded) {
           users = state.users;
           return Container(
             height: MediaQuery.of(context).size.height * .6,
             child: AppinioSwiper(
-              invertAngleOnBottomDrag: true,
+              invertAngleOnBottomDrag: false,
               backgroundCardCount: 2,
-              swipeOptions: const SwipeOptions.all(),
+              swipeOptions: const SwipeOptions.only(left: true, right: true),
               controller: controller,
               onSwipeEnd: _swipeEnd,
               onEnd: _onEnd,
               cardCount: users!.length,
+              onCardPositionChanged: _onSwipePositionChanged,
               cardBuilder: (BuildContext context, int index) {
                 return AppSwiperCardWidget(
                   user: users![index],
@@ -62,9 +63,9 @@ class _AppSwiperWidgetState extends State<AppSwiperWidget> {
               },
             ),
           );
-        } else if (state is GetUsersError) {
+        } else if (state is GetSuggestionsError) {
           return AppMessageErrorWidget(error: state.error);
-        } else if (state is GetUsersLoading) {
+        } else if (state is GetSuggestionsLoading) {
           return Center(
             child: CircularProgressIndicator(),
           );
@@ -93,7 +94,9 @@ class _AppSwiperWidgetState extends State<AppSwiperWidget> {
             style: ElevatedButton.styleFrom(
               shape: CircleBorder(side: BorderSide(color: AppColors.danger)),
               padding: EdgeInsets.all(10),
-              backgroundColor: Colors.transparent,
+              backgroundColor: swipeDirection == 'left'
+                  ? AppColors.danger.withOpacity(.2)
+                  : Colors.transparent,
               shadowColor: Colors.transparent, // <-- Button color
               foregroundColor: AppColors.danger, // <-- Splash color
             ),
@@ -132,7 +135,9 @@ class _AppSwiperWidgetState extends State<AppSwiperWidget> {
             style: ElevatedButton.styleFrom(
               shape: CircleBorder(side: BorderSide(color: AppColors.primary)),
               padding: EdgeInsets.all(10),
-              backgroundColor: Colors.transparent,
+              backgroundColor: swipeDirection == 'right'
+                  ? AppColors.primary.withOpacity(.2)
+                  : Colors.transparent,
               shadowColor: Colors.transparent, // <-- Button color
               foregroundColor: AppColors.primary, // <-- Splash color
             ),
@@ -159,6 +164,26 @@ class _AppSwiperWidgetState extends State<AppSwiperWidget> {
       case DrivenActivity():
         print('Driven Activity');
         break;
+    }
+    setState(() {
+      swipeDirection = '';
+    });
+  }
+
+  void _onSwipePositionChanged(SwiperPosition position) {
+    print(position.angle.dg);
+    if (position.angle.dg > 2) {
+      setState(() {
+        swipeDirection = 'right';
+      });
+    } else if (position.angle.dg < -2) {
+      setState(() {
+        swipeDirection = 'left';
+      });
+    } else {
+      setState(() {
+        swipeDirection = '';
+      });
     }
   }
 
